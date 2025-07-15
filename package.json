@@ -24,6 +24,7 @@
     "url": "http://substack.net"
   },
   "scripts": {
+    "dev": "vite",
     "test": "browserify test/vm.js | tape-run"
   },
   "license": "MIT",
