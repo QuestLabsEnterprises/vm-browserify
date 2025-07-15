@@ -12,11 +12,11 @@
     "browser",
     "eval"
   ],
-  "dependencies": {},
   "devDependencies": {
     "browserify": "^16.1.1",
     "tape": "^4.11.0",
-    "tape-run": "^6.0.1"
+    "tape-run": "^6.0.1",
+    "vite": "^7.0.4"
   },
   "author": {
     "name": "James Halliday",
@@ -26,5 +26,10 @@
   "scripts": {
     "test": "browserify test/vm.js | tape-run"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@monaco-editor/react": "^4.7.0",
+    "lucide-react": "^0.525.0",
+    "monaco-editor": "^0.52.2"
+  }
 }
