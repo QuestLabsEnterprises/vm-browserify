@@ -47,6 +47,9 @@ const globals = ['Array', 'Boolean', 'Date', 'Error', 'EvalError', 'Function',
 'decodeURI', 'decodeURIComponent', 'encodeURI', 'encodeURIComponent', 'escape',
 'eval', 'isFinite', 'isNaN', 'parseFloat', 'parseInt', 'undefined', 'unescape'];
 
+// Initialize vm object at the beginning
+let vm = {};
+
 function Context() {}
 Context.prototype = {};
 
@@ -125,13 +128,6 @@ Script.prototype.runInNewContext = function (context) {
     return res;
 };
 
-forEach(Object_keys(Script.prototype), function (name) {
-    vm[name] = Script[name] = function (code) {
-        var s = Script(code);
-        return s[name].apply(s, [].slice.call(arguments, 1));
-    };
-});
-
 const isContext = function (context) {
     return context instanceof Context;
 };
@@ -150,15 +146,22 @@ const createContext = Script.createContext = function (context) {
     return copy;
 };
 
-// Export the vm module
-const vm = {
-    Script,
-    runInContext: Script.prototype.runInContext,
-    runInThisContext: Script.prototype.runInThisContext,
-    runInNewContext: Script.prototype.runInNewContext,
-    isContext,
-    createScript,
-    createContext
-};
+// Assign all methods to vm object after everything is defined
+vm.Script = Script;
+vm.runInContext = Script.prototype.runInContext;
+vm.runInThisContext = Script.prototype.runInThisContext;
+vm.runInNewContext = Script.prototype.runInNewContext;
+vm.isContext = isContext;
+vm.createScript = createScript;
+vm.createContext = createContext;
 
+// Add the forEach loop for Script prototype methods
+forEach(Object_keys(Script.prototype), function (name) {
+    vm[name] = Script[name] = function (code) {
+        var s = Script(code);
+        return s[name].apply(s, [].slice.call(arguments, 1));
+    };
+});
+
+// Export the vm module
 export default vm;
