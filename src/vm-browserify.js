@@ -126,7 +126,7 @@ Script.prototype.runInNewContext = function (context) {
 };
 
 forEach(Object_keys(Script.prototype), function (name) {
-    exports[name] = Script[name] = function (code) {
+    vm[name] = Script[name] = function (code) {
         var s = Script(code);
         return s[name].apply(s, [].slice.call(arguments, 1));
     };
